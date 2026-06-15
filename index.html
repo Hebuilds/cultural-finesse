@@ -1,0 +1,1262 @@
+  <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>CULTUREFINESS — Curated Living</title> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.co
+
+pasted
+
+You are my personal software debug engineer, senior manager, that usually help to improve website user interface, and responsibility in different devices level. You are going to analyze this website, help different... it have different changes. It's for ecommerce. It's only single page website. We want you to make sure and analyze how it's looking like on your own view. One of your Tuskeys to also design the Hellabutons, for example, CultureFinance, ShopNow and all the ShopNow and All that they seem like the same things, but you can modify them, use appropriate icon for this website, because it's mostly of greenish clothing. On PhoneView, you must redefine them, make them look quite better as header icon and not extra large with those long, long borders, because it's not looking present. Everything else on the website is actually looking pretty great and attractive, only going to not done more changes to create. You're just going to edit this phone view. Because he tried also to even attach the image, see how it look likes, those buttons are not like crazy. You can make them way better. And for the explorer correction, it's not like... it's not on the Hilo section. It must not be that very below. It must be, like, near... up near where a person can actually see it, explorer collection as long as he opens the phone. It must it must not be hidden down there. Then our story button modify, it looks like there are most lot of content and unnecessary. Also, you can work on this scroll bar Indicators, current indicator showing that it has scrolled down its... each position somewhere which is not really attractive, you can study on needs and understand how the layout should be looking a lot, like, in this section. Everything so far looks p... pretty great. One more refinement is about these product cards product cards on on the -- view. The cloth is the cloth is... or image for the clothings are super extra large, so you can reduce their head slightly slightly. Later, we'll add another button that is called Shopna. That put on Shopna, which will direct the person to the actual... the shop items. Here, you can see the old listings of products, and it would be better if you gave me two different calls so that I can see the Shopna where I see the old listings of product, not like this. Just because on the main page, there are some highlights, and on Shopna, we see the old listings of the products. It's where a person can't can't view different different clothes, and click on buy see the items, the buy, the buying, and the payments will be done automatically on whatsapp
+
+Show more
+2:21 PM
+
+Reading frontend design skill
+Reading frontend design skill
+Now let me analyze the screenshots and the full code carefully before making targeted mobile fixes.
+
+
+Viewed 2 files
+Viewed 2 files
+Clear picture now. Here's my diagnosis before touching code:
+
+Issues to fix (mobile only):
+
+# Navigate to your repo directory (adjust path if needed)
+cd "your-repo-directory"
+
+# Copy the clean HTML file
+Copy-Item "c:\Users\USER\Desktop\index (2).html" -Destination "index.html"
+
+# Initialize git (if not already done)
+git init
+
+# Add your GitHub remote
+git remote add origin https://github.com/Hebuilds/cultural-finesse.git
+
+# Stage, commit, and push
+git add index.html
+git commit -m "Update: Mobile UI refinements - compact nav buttons, repositioned scroll indicator, optimized product image heights, added shop page with WhatsApp ordering"
+git push -u origin main buttons — "SHOP NOW" has a big ugly border-box, "Order" same. Need to become compact icon-buttons
+Hero CTA ("Explore Collection") — pushed too far down, not visible on first screen
+"Our Story" ghost link — can be tightened
+Scroll indicator — mispositioned on mobile, overlapping content
+Product image heights — too tall on mobile
+New "Shop All" page — second section with full product listing + WhatsApp buy flow
+
+Ran 2 commands
+Ran 2 commands
+
+Copy the HTML file to working directory
+
+Script
+
+Write the full HTML to disk so I can edit it
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CULTUREFINESS — Curated Living</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Unbounded:wght@200;300;400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --army: #4a5240;
+  --army-light: #6b7560;
+  --army-dark: #2d3228;
+  --cream: #FBF5DD;
+  --white: #ffffff;
+  --off-white: #f8f6f0;
+  --text-dark: #1a1a18;
+  --text-mid: #3d3d38;
+  --text-light: #7a7a72;
+  --border: rgba(74,82,64,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--text-dark);
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* ── CURSOR ── */
+#cursor {
+  position: fixed; width: 12px; height: 12px;
+  border-radius: 50%; background: var(--army);
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .3s cubic-bezier(.16,1,.3,1), height .3s cubic-bezier(.16,1,.3,1), background .3s;
+  mix-blend-mode: multiply;
+}
+#cursor-ring {
+  position: fixed; width: 44px; height: 44px;
+  border-radius: 50%; border: 1px solid var(--army);
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width .4s cubic-bezier(.16,1,.3,1), height .4s cubic-bezier(.16,1,.3,1), opacity .3s;
+  opacity: 0.5;
+}
+body.cursor-hover #cursor { width: 40px; height: 40px; background: var(--army-dark); opacity: 0.15; }
+body.cursor-hover #cursor-ring { width: 80px; height: 80px; opacity: 0.2; }
+
+@media (pointer:coarse), (max-width:900px) {
+  body { cursor: auto; }
+  #cursor, #cursor-ring { display: none !important; }
+}
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 28px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: padding .4s, background .4s;
+}
+nav.scrolled {
+  padding: 16px 60px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 17px; font-weight: 300; letter-spacing: .04em;
+  text-decoration: none; display: flex;
+}
+.logo span.culture { color: var(--army); }
+.logo span.finesse { color: var(--text-dark); }
+.nav-links { display: flex; gap: 48px; list-style: none; }
+.nav-links a {
+  font-size: 12px; font-weight: 400; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-mid);
+  text-decoration: none; transition: color .3s;
+}
+.nav-links a:hover { color: var(--army); }
+.nav-cta {
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 12px 28px; border: 1px solid var(--army);
+  color: var(--army); text-decoration: none; transition: all .3s;
+}
+.nav-cta:hover { background: var(--army); color: var(--white); }
+
+.nav-cart{
+  display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border:1px solid var(--army);
+  color:var(--army); text-decoration:none; font-size:12px; background:transparent;
+}
+.nav-cart svg{width:16px;height:16px}
+
+/* ── HERO ── */
+#hero {
+  height: 100vh; min-height: 700px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+  background: var(--cream);
+}
+.hero-img-frame {
+  position: absolute; top: 0; right: 0;
+  width: 56%; height: 100%; overflow: hidden;
+  clip-path: polygon(8% 0%,100% 0%,100% 100%,0% 100%);
+  z-index: 1;
+}
+.hero-img-bg {
+  width: 100%; height: 115%;
+  object-fit: cover;
+  will-change: transform;
+  transform: scale(1.08);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 60px;
+  width: 54%;
+  padding-top: 80px;
+}
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--army); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 1s .3s forwards;
+}
+.hero-eyebrow::before { content:''; width:36px; height:1px; background:var(--army); }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(58px,8vw,110px);
+  font-weight: 300; line-height: .92; letter-spacing: -.02em;
+  color: var(--text-dark); margin-bottom: 32px;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeUp 1.2s .5s forwards;
+}
+.hero-title em { font-style: italic; color: var(--army); }
+.hero-sub {
+  font-size: 14px; font-weight: 300; line-height: 1.8;
+  color: var(--text-light); max-width: 340px; margin-bottom: 44px;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 1s .8s forwards;
+}
+.hero-actions {
+  display: flex; align-items: center; gap: 40px;
+  opacity: 0; animation: fadeUp 1s 1s forwards;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--army); color: var(--white);
+  text-decoration: none; padding: 18px 36px;
+  font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+  position: relative; overflow: hidden; transition: all .4s cubic-bezier(.16,1,.3,1);
+}
+.btn-primary::before {
+  content:''; position:absolute; inset:0; background:var(--army-dark);
+  transform: translateX(-100%); transition: transform .4s cubic-bezier(.16,1,.3,1);
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary span, .btn-primary svg { position:relative; z-index:1; }
+.btn-primary svg { transition: transform .3s; }
+.btn-primary:hover svg { transform: translateX(4px); }
+.btn-ghost {
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text-mid); text-decoration: none;
+  padding-bottom: 2px; border-bottom: 1px solid currentColor; transition: color .3s;
+}
+.btn-ghost:hover { color: var(--army); }
+.hero-scroll-indicator {
+  position: absolute; bottom: 40px; right: 60px; z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0; animation: fadeUp 1s 1.4s forwards;
+}
+.hero-scroll-indicator span {
+  writing-mode: vertical-rl; font-size: 10px;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--text-light);
+}
+.scroll-line { width:1px; height:60px; background:var(--border); position:relative; overflow:hidden; }
+.scroll-line::after {
+  content:''; position:absolute; top:-100%; width:100%; height:100%;
+  background:var(--army); animation: scrollDown 2s 1.5s infinite;
+}
+@keyframes scrollDown { 0%{top:-100%} 100%{top:100%} }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+/* ── TICKER ── */
+.ticker-wrap { background:var(--army); padding:14px 0; overflow:hidden; white-space:nowrap; }
+.ticker { display:inline-flex; animation:ticker 25s linear infinite; }
+.ticker-item {
+  font-family:'Cormorant Garamond',serif; font-size:14px; font-weight:300;
+  letter-spacing:.08em; color:var(--cream); padding:0 48px;
+}
+.ticker-item span { color:rgba(251,245,221,.4); margin:0 16px; }
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── SECTIONS ── */
+section { padding: 120px 0; }
+.container { max-width:1440px; margin:0 auto; padding:0 60px; }
+.section-label {
+  font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--army);
+  display:flex; align-items:center; gap:16px; margin-bottom:56px;
+}
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); max-width:120px; }
+.section-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,5.5vw,78px); font-weight:300;
+  line-height:1; letter-spacing:-.02em;
+}
+.section-title em { font-style:italic; color:var(--army); }
+
+/* ── PHILOSOPHY ── */
+#philosophy { background:var(--white); }
+.philosophy-grid { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; }
+.philosophy-body { margin-top:44px; font-size:16px; font-weight:300; line-height:1.9; color:var(--text-mid); max-width:460px; }
+.philosophy-body p + p { margin-top:20px; }
+.philosophy-stats { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:64px; background:var(--border); }
+.stat-box { background:var(--white); padding:36px 28px; }
+.stat-num { font-family:'Cormorant Garamond',serif; font-size:50px; font-weight:300; color:var(--army); line-height:1; letter-spacing:-.03em; }
+.stat-label { font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-light); margin-top:8px; }
+
+.philosophy-visual { position:relative; height:640px; }
+.phil-img-main {
+  position:absolute; top:0; right:0; width:86%; height:78%;
+  overflow:hidden;
+}
+.phil-img-main img {
+  width:100%; height:120%; object-fit:cover;
+  transform: scale(1.15) translateY(0);
+  will-change:transform;
+  display:block;
+}
+.phil-img-accent {
+  position:absolute; bottom:0; left:0;
+  width:52%; min-height:46%;
+  background:var(--cream);
+  border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  padding:36px;
+  opacity:0;
+  transform: translateY(60px) scale(0.92);
+  transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1);
+  will-change: transform, opacity;
+  z-index: 2;
+}
+.phil-img-accent.in-view {
+  opacity:1;
+  transform: translateY(0) scale(1);
+}
+.phil-quote {
+  font-family:'Cormorant Garamond',serif; font-size:21px;
+  font-style:italic; font-weight:300; line-height:1.55;
+  color:var(--army-dark);
+}
+.phil-quote-mark {
+  font-family:'Cormorant Garamond',serif; font-size:80px;
+  line-height:.6; color:var(--army); opacity:.18;
+  display:block; margin-bottom:8px;
+}
+
+/* ── PRODUCTS ── */
+#products { background:var(--off-white); padding:120px 0 160px; }
+.products-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:80px; }
+.products-header-right { font-size:13px; font-weight:300; color:var(--text-light); max-width:280px; line-height:1.7; text-align:right; }
+.products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+
+.product-card { position:relative; overflow:hidden; background:var(--white); cursor:none; }
+.product-card:first-child { grid-column:span 2; grid-row:span 2; }
+.product-img-wrap { overflow:hidden; height:380px; position:relative; background:var(--cream); }
+.product-card:first-child .product-img-wrap { height:540px; }
+
+.product-img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  transform: scale(1.08);
+  transition: transform 1s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+.product-card:hover .product-img { transform: scale(1.15); }
+.product-card.zoom-active .product-img { transform: scale(var(--zoom-val,1.08)); }
+
+.product-badge {
+  position:absolute; top:22px; left:22px; background:var(--army);
+  color:var(--cream); font-size:9px; letter-spacing:.18em;
+  text-transform:uppercase; padding:5px 13px; z-index:2;
+}
+.product-info { padding:26px 30px 34px; }
+.product-card:first-child .product-info { padding:34px 40px 46px; }
+.product-cat { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--army); margin-bottom:10px; }
+.product-name { font-family:'Cormorant Garamond',serif; font-size:25px; font-weight:400; line-height:1.15; margin-bottom:10px; }
+.product-card:first-child .product-name { font-size:34px; }
+.product-desc { font-size:13px; font-weight:300; color:var(--text-light); line-height:1.7; margin-bottom:22px; }
+.product-footer { display:flex; align-items:center; justify-content:space-between; }
+.product-price { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; color:var(--text-dark); }
+.product-link {
+  display:flex; align-items:center; gap:8px; font-size:11px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--army);
+  text-decoration:none; padding-bottom:2px; border-bottom:1px solid var(--army); transition:all .3s;
+}
+.product-link:hover { gap:14px; }
+.product-link svg { transition:transform .3s; }
+.product-link:hover svg { transform:translateX(3px); }
+
+/* ── MARQUEE BREAK ── */
+#marquee-break { padding:0; overflow:hidden; height:420px; position:relative; }
+.marquee-bg {
+  position:absolute; inset:0;
+  background:linear-gradient(160deg,var(--army-dark) 0%,var(--army) 60%,var(--army-light) 100%);
+  display:flex; align-items:center;
+}
+.marquee-text-track { display:flex; white-space:nowrap; animation:marqueeScroll 22s linear infinite; will-change:transform; }
+.marquee-word {
+  font-family:'Cormorant Garamond',serif; font-size:clamp(80px,12vw,160px);
+  font-weight:300; font-style:italic; color:transparent;
+  -webkit-text-stroke:1px rgba(251,245,221,.22);
+  padding:0 60px; letter-spacing:-.03em; line-height:1; flex-shrink:0;
+}
+.marquee-word.filled { color:rgba(251,245,221,.07); -webkit-text-stroke:none; }
+.marquee-center {
+  position:absolute; inset:0; display:flex; align-items:center;
+  justify-content:center; flex-direction:column; gap:16px; text-align:center;
+}
+.marquee-center-text { font-family:'Cormorant Garamond',serif; font-size:23px; font-style:italic; font-weight:300; color:var(--cream); letter-spacing:.04em; }
+.marquee-center-sub { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:rgba(251,245,221,.5); }
+@keyframes marqueeScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── LIFESTYLE PILLARS ── */
+#lifestyle { background:var(--white); }
+.lifestyle-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:60px; margin-top:80px; }
+.lifestyle-num { font-family:'Cormorant Garamond',serif; font-size:11px; font-weight:400; color:var(--army); letter-spacing:.08em; margin-bottom:28px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+.lifestyle-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; line-height:1.2; margin-bottom:14px; }
+.lifestyle-body { font-size:14px; font-weight:300; line-height:1.8; color:var(--text-light); }
+
+/* ── SCROLL GALLERY ── */
+#gallery { background:var(--cream); overflow:hidden; padding:120px 0; }
+.gallery-header { padding:0 60px; margin-bottom:60px; }
+.gallery-scroll-wrap { overflow:hidden; }
+.gallery-track { display:flex; gap:20px; padding:0 60px; animation:galleryScroll 38s linear infinite; width:max-content; }
+.gallery-track:hover { animation-play-state:paused; }
+.gallery-card { flex-shrink:0; width:340px; height:440px; overflow:hidden; position:relative; }
+.gallery-img { width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.16,1,.3,1); display:block; }
+.gallery-card:hover .gallery-img { transform:scale(1.05); }
+.gallery-card-label { position:absolute; bottom:0; left:0; right:0; padding:40px 24px 24px; background:linear-gradient(transparent,rgba(26,26,24,.75)); color:var(--white); }
+.gallery-card-cat { font-size:9px; letter-spacing:.2em; text-transform:uppercase; opacity:.7; margin-bottom:6px; }
+.gallery-card-name { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; }
+@keyframes galleryScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── TESTIMONIALS ── */
+#testimonials { background:var(--white); padding:140px 0; }
+.testimonials-wrap { max-width:800px; margin:0 auto; text-align:center; padding:0 60px; }
+.testimonial-quote {
+  font-family:'Cormorant Garamond',serif; font-size:clamp(26px,4vw,46px);
+  font-style:italic; font-weight:300; line-height:1.35; color:var(--text-dark);
+  margin-bottom:48px; opacity:0; transform:translateY(24px);
+  transition: all .8s cubic-bezier(.16,1,.3,1);
+}
+.testimonial-quote.visible { opacity:1; transform:translateY(0); }
+.testimonial-author { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--army); }
+.testimonial-dots { display:flex; justify-content:center; gap:8px; margin-top:48px; }
+.t-dot { width:6px; height:6px; border-radius:50%; background:var(--border); cursor:pointer; transition:all .3s; }
+.t-dot.active { background:var(--army); width:24px; border-radius:3px; }
+
+/* ── CTA ── */
+#cta { background:var(--army-dark); padding:140px 0; position:relative; overflow:hidden; }
+#cta::before {
+  content:'CF'; position:absolute; font-family:'Cormorant Garamond',serif;
+  font-size:600px; font-weight:300; color:rgba(251,245,221,.03);
+  top:-100px; left:-100px; line-height:1; pointer-events:none; font-style:italic;
+}
+.cta-inner { max-width:700px; text-align:center; margin:0 auto; padding:0 60px; position:relative; z-index:1; }
+.cta-eyebrow { font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:rgba(251,245,221,.5); margin-bottom:32px; }
+.cta-title { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,7vw,90px); font-weight:300; line-height:.95; color:var(--cream); margin-bottom:48px; letter-spacing:-.02em; }
+.cta-title em { font-style:italic; color:rgba(251,245,221,.6); }
+.cta-sub { font-size:15px; font-weight:300; color:rgba(251,245,221,.55); line-height:1.7; margin-bottom:56px; }
+.email-form { display:flex; border:1px solid rgba(251,245,221,.2); overflow:hidden; max-width:480px; margin:0 auto; }
+.email-input { flex:1; background:transparent; border:none; padding:18px 24px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:300; color:var(--cream); outline:none; }
+.email-input::placeholder { color:rgba(251,245,221,.3); }
+.email-submit { background:var(--cream); border:none; padding:18px 32px; font-family:'DM Sans',sans-serif; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--army-dark); cursor:none; transition:background .3s; }
+.email-submit:hover { background:var(--white); }
+
+/* ── FOOTER ── */
+footer { background:var(--white); border-top:1px solid var(--border); padding:80px 0 48px; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px; margin-bottom:80px; }
+.footer-brand .logo { font-size:20px; margin-bottom:20px; display:block; }
+.footer-brand p { font-size:13px; font-weight:300; color:var(--text-light); line-height:1.8; max-width:240px; }
+.footer-col-title { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dark); margin-bottom:24px; }
+.footer-links { list-style:none; }
+.footer-links li+li { margin-top:12px; }
+.footer-links a { font-size:13px; font-weight:300; color:var(--text-light); text-decoration:none; transition:color .3s; }
+.footer-links a:hover { color:var(--army); }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; padding-top:40px; border-top:1px solid var(--border); }
+.footer-bottom p { font-size:12px; color:var(--text-light); font-weight:300; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(40px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:.1s; }
+.reveal-delay-2 { transition-delay:.2s; }
+.reveal-delay-3 { transition-delay:.3s; }
+.reveal-delay-4 { transition-delay:.4s; }
+.reveal-delay-5 { transition-delay:.5s; }
+
+/* ── PAGE LOADER ── */
+#page-loader { position:fixed; inset:0; background:var(--army-dark); z-index:1000; display:flex; align-items:center; justify-content:center; animation:loaderOut .8s .7s cubic-bezier(.76,0,.24,1) forwards; pointer-events:none; }
+.loader-logo { font-family:'Unbounded',sans-serif; font-size:20px; font-weight:200; letter-spacing:.08em; color:var(--cream); animation:loaderFade .4s .2s forwards; opacity:0; }
+.loader-logo .culture { color:#8a9870; }
+@keyframes loaderFade { to{opacity:1} }
+@keyframes loaderOut { 0%{transform:translateY(0)} 100%{transform:translateY(-100%)} }
+
+/* ── SHOP ALL PAGE ── */
+#shop-page {
+  display:none; position:fixed; inset:0; z-index:200;
+  background:var(--off-white); overflow-y:auto;
+}
+#shop-page.open { display:block; }
+.shop-page-header {
+  position:sticky; top:0; z-index:10;
+  background:rgba(248,246,240,0.96); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:20px 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.shop-page-logo {
+  font-family:'Unbounded',sans-serif; font-size:14px; font-weight:300;
+  letter-spacing:.04em; text-decoration:none;
+}
+.shop-page-logo span.culture { color:var(--army); }
+.shop-close {
+  width:40px; height:40px; border-radius:50%;
+  border:1px solid var(--border); background:var(--white);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all .25s; color:var(--text-mid);
+}
+.shop-close:hover { background:var(--army); color:var(--white); border-color:var(--army); }
+.shop-hero-bar {
+  background:var(--army-dark); padding:48px 24px 40px;
+  text-align:center;
+}
+.shop-hero-label { font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:rgba(251,245,221,.5); margin-bottom:12px; }
+.shop-hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,8vw,56px); font-weight:300; color:var(--cream); font-style:italic; }
+.shop-hero-sub { font-size:13px; font-weight:300; color:rgba(251,245,221,.5); margin-top:10px; letter-spacing:.04em; }
+.shop-filter-bar {
+  display:flex; gap:8px; padding:20px 20px 4px; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.shop-filter-bar::-webkit-scrollbar { display:none; }
+.shop-filter-btn {
+  flex-shrink:0; font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  padding:8px 16px; border-radius:2px;
+  border:1px solid var(--border); background:var(--white);
+  color:var(--text-mid); cursor:pointer; transition:all .2s;
+  white-space:nowrap;
+}
+.shop-filter-btn.active, .shop-filter-btn:hover {
+  background:var(--army); color:var(--cream); border-color:var(--army);
+}
+.shop-grid {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:2px; padding:2px;
+}
+.shop-item {
+  background:var(--white); position:relative; overflow:hidden;
+}
+.shop-item-img-wrap { height:260px; overflow:hidden; background:var(--cream); position:relative; }
+.shop-item-img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .7s cubic-bezier(.16,1,.3,1);
+}
+.shop-item:hover .shop-item-img { transform:scale(1.06); }
+.shop-item-badge {
+  position:absolute; top:12px; left:12px; background:var(--army);
+  color:var(--cream); font-size:8px; letter-spacing:.14em;
+  text-transform:uppercase; padding:4px 10px; z-index:2;
+}
+.shop-item-info { padding:18px 18px 22px; }
+.shop-item-cat { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--army); margin-bottom:6px; }
+.shop-item-name { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; line-height:1.15; margin-bottom:6px; }
+.shop-item-desc { font-size:12px; font-weight:300; color:var(--text-light); line-height:1.6; margin-bottom:14px; }
+.shop-item-footer { display:flex; align-items:center; justify-content:space-between; }
+.shop-item-price { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:var(--text-dark); }
+.shop-buy-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--army); color:var(--cream);
+  border:none; border-radius:2px; padding:9px 14px;
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  cursor:pointer; transition:all .25s;
+}
+.shop-buy-btn:hover { background:var(--army-dark); }
+.shop-buy-btn svg { width:13px; height:13px; }
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  /* NAVBAR: compact icon-bar */
+  nav {
+    padding: 0 16px;
+    height: 58px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.scrolled { padding: 0 16px; }
+  .nav-links { display:none; }
+  .logo { font-size: 13px; letter-spacing:.02em; }
+
+  /* Hide old desktop CTA & cart, show mobile icon buttons */
+  .nav-cta { display:none; }
+  .nav-cart { display:none; }
+
+  /* Mobile nav icon group */
+  .nav-mobile-actions {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--white);
+    color: var(--army); text-decoration: none;
+    transition: all .25s; flex-shrink:0;
+  }
+  .nav-icon-btn:hover, .nav-icon-btn:active {
+    background: var(--army); color: var(--white); border-color:var(--army);
+  }
+  .nav-icon-btn svg { width:17px; height:17px; }
+
+  /* Shop-all pill button in nav */
+  .nav-shop-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    height: 34px; padding: 0 14px; border-radius: 17px;
+    background: var(--army); color: var(--cream);
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background .25s; flex-shrink:0;
+  }
+  .nav-shop-pill:hover { background: var(--army-dark); }
+  .nav-shop-pill svg { width:12px; height:12px; }
+
+  /* CONTAINER */
+  .container { padding:0 20px; }
+
+  /* HERO: tighter, CTAs visible above fold */
+  #hero { min-height:100svh; align-items:flex-start; padding-top:0; }
+  .hero-img-frame { width:100%; clip-path:none; opacity:.22; }
+  .hero-content {
+    width:100%; padding: 74px 20px 0;
+  }
+  .hero-eyebrow { margin-bottom:18px; font-size:10px; }
+  .hero-title { font-size: clamp(40px,11vw,58px); margin-bottom:20px; }
+  .hero-sub { font-size:13px; margin-bottom:28px; max-width:100%; }
+  .hero-actions {
+    flex-direction:column; align-items:flex-start; gap:14px;
+  }
+  .btn-primary {
+    padding:14px 26px; font-size:10px;
+  }
+  .btn-ghost {
+    font-size:11px;
+  }
+
+  /* Scroll indicator: minimal, bottom-right, not overlapping text */
+  .hero-scroll-indicator {
+    right: 14px;
+    bottom: 28px;
+    top: auto;
+    transform: none;
+  }
+  .hero-scroll-indicator span { font-size:8px; }
+  .scroll-line { height:36px; }
+
+  /* PHILOSOPHY */
+  .philosophy-grid { grid-template-columns:1fr; gap:48px; }
+  .philosophy-visual { height:320px; }
+  .philosophy-body { font-size:15px; }
+
+  /* PRODUCTS: smaller image heights */
+  .products-grid { grid-template-columns:1fr; gap:2px; }
+  .product-card:first-child { grid-column:span 1; grid-row:span 1; }
+  .products-header { flex-direction:column; align-items:flex-start; gap:20px; }
+  .products-header-right { text-align:left; font-size:12px; }
+  .product-img-wrap { height:240px; }
+  .product-card:first-child .product-img-wrap { height:280px; }
+  .product-info { padding:18px 18px 24px; }
+  .product-card:first-child .product-info { padding:20px 18px 28px; }
+  .product-name { font-size:22px; }
+  .product-card:first-child .product-name { font-size:26px; }
+
+  /* LIFESTYLE */
+  .lifestyle-grid { grid-template-columns:1fr; gap:36px; }
+
+  /* GALLERY */
+  .gallery-card { width:240px; height:300px; }
+  .gallery-header { padding:0 20px; }
+  .gallery-track { padding:0 20px; }
+
+  /* TESTIMONIALS */
+  .testimonials-wrap { padding:0 20px; }
+
+  /* FOOTER */
+  .footer-grid { grid-template-columns:1fr 1fr; gap:36px; }
+  .footer-bottom { flex-direction:column; gap:12px; text-align:center; }
+
+  /* Shop-all page: full 2-col grid is good on mobile */
+  .shop-item-img-wrap { height:200px; }
+}
+
+/* ── Hide mobile nav elements on desktop ── */
+@media(min-width:901px){
+  .nav-mobile-actions { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Page Loader -->
+<div id="page-loader">
+  <div class="loader-logo"><span class="culture">Culture</span>Finesse</div>
+</div>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo"><span class="culture">Culture</span><span class="finesse">Finesse</span></a>
+
+  <!-- Desktop links -->
+  <ul class="nav-links">
+    <li><a href="#philosophy">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#gallery">Collections</a></li>
+    <li><a href="#cta">Contact</a></li>
+  </ul>
+  <a href="#products" class="nav-cta">Shop Now</a>
+  <a href="#" class="nav-cart" id="cart-btn" title="Order via WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M20.5 3.5H3.5v13h17v-13zM7 20.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" stroke="currentColor" stroke-width="0.5"/></svg>
+    <span>Order</span>
+  </a>
+
+  <!-- Mobile icon actions -->
+  <div class="nav-mobile-actions">
+    <!-- Shop All pill -->
+    <button class="nav-shop-pill" id="mob-shop-btn" aria-label="Shop All">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12l-1.5 7h-9L2 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="5.5" cy="13" r="1" fill="currentColor"/><circle cx="10.5" cy="13" r="1" fill="currentColor"/></svg>
+      Shop
+    </button>
+    <!-- WhatsApp order icon -->
+    <a href="#" class="nav-icon-btn" id="mob-cart-btn" title="Order on WhatsApp">
+      <!-- WhatsApp icon -->
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M20.5 3.5C18.3 1.3 15.3 0 12 0 5.4 0 0 5.4 0 12c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.6C8 23.4 10 24 12 24c6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.5-8.5zm-8.5 18.4c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.7.9.9-3.6-.2-.4c-.9-1.5-1.4-3.2-1.4-5C2 6.5 6.5 2 12 2c2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1 0 5.5-4.5 10-10 10zm5.5-7.4c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6l.5-.5c.1-.2.1-.3.2-.5 0-.2 0-.4-.1-.5-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C6 9.3 5.3 10 5.3 11.5s1.1 2.9 1.3 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.2-.1-.4-.2-.6-.3z" fill="currentColor"/>
+      </svg>
+    </a>
+  </div>
+</nav>
+
+<!-- SHOP ALL PAGE (overlay) -->
+<div id="shop-page">
+  <div class="shop-page-header">
+    <span class="shop-page-logo"><span class="culture">Culture</span><span class="finesse">Finesse</span></span>
+    <button class="shop-close" id="shop-close-btn" aria-label="Close shop">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="shop-hero-bar">
+    <div class="shop-hero-label">The Full Collection</div>
+    <div class="shop-hero-title">Shop All</div>
+    <div class="shop-hero-sub">Every piece, every category</div>
+  </div>
+  <div class="shop-filter-bar">
+    <button class="shop-filter-btn active" data-filter="all">All</button>
+    <button class="shop-filter-btn" data-filter="menswear">Menswear</button>
+    <button class="shop-filter-btn" data-filter="womenswear">Womenswear</button>
+    <button class="shop-filter-btn" data-filter="essentials">Essentials</button>
+    <button class="shop-filter-btn" data-filter="full-look">Full Looks</button>
+  </div>
+  <div class="shop-grid" id="shop-grid">
+    <!-- items injected by JS -->
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-img-frame">
+    <img class="hero-img-bg" id="hero-parallax"
+      src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/full-man-putfi_ppkagh.jpg"
+      alt="CULTUREFINESS hero">
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Curated Excellence</div>
+    <h1 class="hero-title">
+      Where<br><em>Culture</em><br>Meets Finesse
+    </h1>
+    <p class="hero-sub">A curated selection of extraordinary products, chosen for those who understand the art of living beautifully.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">
+        <span>Explore Collection</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#philosophy" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">Curated Living<span>✦</span></span>
+    <span class="ticker-item">Premium Selection<span>✦</span></span>
+    <span class="ticker-item">Cultural Excellence<span>✦</span></span>
+    <span class="ticker-item">Refined Taste<span>✦</span></span>
+    <span class="ticker-item">Luxury Essentials<span>✦</span></span>
+    <span class="ticker-item">Curated Living<span>✦</span></span>
+    <span class="ticker-item">Premium Selection<span>✦</span></span>
+    <span class="ticker-item">Cultural Excellence<span>✦</span></span>
+    <span class="ticker-item">Refined Taste<span>✦</span></span>
+    <span class="ticker-item">Luxury Essentials<span>✦</span></span>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section id="philosophy">
+  <div class="container">
+    <div class="philosophy-grid">
+      <div class="philosophy-text">
+        <div class="section-label reveal">Our Philosophy</div>
+        <h2 class="section-title reveal reveal-delay-1">Beyond<br>ordinary.<br><em>Above all.</em></h2>
+        <div class="philosophy-body reveal reveal-delay-2">
+          <p>CULTUREFINESS was born from a singular belief: that the products we surround ourselves with are an expression of who we are and who we aspire to become.</p>
+          <p>We source, curate, and present only those objects that carry genuine worth — not just in price, but in craft, story, and the quietly confident statement they make in the world.</p>
+        </div>
+        <div class="philosophy-stats reveal reveal-delay-3">
+          <div class="stat-box"><div class="stat-num">500+</div><div class="stat-label">Curated Products</div></div>
+          <div class="stat-box"><div class="stat-num">48</div><div class="stat-label">Partner Artisans</div></div>
+          <div class="stat-box"><div class="stat-num">12K+</div><div class="stat-label">Satisfied Clients</div></div>
+          <div class="stat-box"><div class="stat-num">5★</div><div class="stat-label">Average Rating</div></div>
+        </div>
+      </div>
+      <div class="philosophy-visual">
+        <div class="phil-img-main" id="phil-main-wrap">
+          <img src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/woman-outfit_nsubop.webp"
+            alt="Philosophy" id="phil-main-img">
+        </div>
+        <div class="phil-img-accent" id="quote-card">
+          <div>
+            <span class="phil-quote-mark">"</span>
+            <p class="phil-quote">Finesse is not bought — it is recognized.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIFESTYLE PILLARS -->
+<section id="lifestyle">
+  <div class="container">
+    <div class="section-label reveal">What We Stand For</div>
+    <h2 class="section-title reveal reveal-delay-1">The three pillars<br>of <em>Culturefiness</em></h2>
+    <div class="lifestyle-grid">
+      <div class="lifestyle-item reveal reveal-delay-2">
+        <div class="lifestyle-num">— 01</div>
+        <h3 class="lifestyle-title">Uncompromising<br>Curation</h3>
+        <p class="lifestyle-body">Every product passes through a rigorous selection process. We reject the ordinary so you never have to encounter it. Less, but better — always.</p>
+      </div>
+      <div class="lifestyle-item reveal reveal-delay-3">
+        <div class="lifestyle-num">— 02</div>
+        <h3 class="lifestyle-title">Cultural<br>Authenticity</h3>
+        <p class="lifestyle-body">We celebrate products that carry genuine cultural DNA — objects made with intent, tradition, and craft that speaks louder than any trend cycle.</p>
+      </div>
+      <div class="lifestyle-item reveal reveal-delay-4">
+        <div class="lifestyle-num">— 03</div>
+        <h3 class="lifestyle-title">Timeless<br>Elegance</h3>
+        <p class="lifestyle-body">Finesse transcends seasons. We source pieces that grow in meaning over time — investments in beauty that compound with every passing year.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="products-header">
+      <div>
+        <div class="section-label reveal">The Collection</div>
+        <h2 class="section-title reveal reveal-delay-1">Featured<br><em>Products</em></h2>
+      </div>
+      <div class="products-header-right reveal reveal-delay-2">
+        Each item is carefully sourced and verified for quality, authenticity, and lasting value.
+      </div>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card reveal">
+        <div class="product-img-wrap">
+          <img class="product-img" data-parallax
+            src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/man-full-fits_j4bojo.webp"
+            alt="Man Full Outfit">
+          <div class="product-badge">New Arrival</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Apparel</div>
+          <h3 class="product-name">The Signature<br>Full Ensemble</h3>
+          <p class="product-desc">Head-to-toe precision. Every piece selected to move together as one statement of effortless power.</p>
+          <div class="product-footer">
+            <div class="product-price">$1,240</div>
+            <a href="#" class="product-link">View Product
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-img-wrap">
+          <img class="product-img" data-parallax
+            src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/white-tishirt-green-background_kmsklm.webp"
+            alt="White T-shirt">
+          <div class="product-badge">Bestseller</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Essentials</div>
+          <h3 class="product-name">The Pure White<br>Signature Tee</h3>
+          <p class="product-desc">Luxury in simplicity. The finest cotton, cut to perfection.</p>
+          <div class="product-footer">
+            <div class="product-price">$180</div>
+            <a href="#" class="product-link">View
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-img-wrap">
+          <img class="product-img" data-parallax
+            src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/fulloutfit-with-shoes_eowefb.jpg"
+            alt="Full Outfit with Shoes">
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Complete Look</div>
+          <h3 class="product-name">Head to Toe<br>Collection</h3>
+          <p class="product-desc">From the ground up. Every detail curated for maximum impact.</p>
+          <div class="product-footer">
+            <div class="product-price">$860</div>
+            <a href="#" class="product-link">View
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-img-wrap">
+          <img class="product-img" data-parallax
+            src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/woman-outfit_nsubop.webp"
+            alt="Woman Outfit">
+          <div class="product-badge">Limited</div>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Womenswear</div>
+          <h3 class="product-name">The Feminine<br>Edit</h3>
+          <p class="product-desc">Grace in every thread. Quietly commanding, always unforgettable.</p>
+          <div class="product-footer">
+            <div class="product-price">$580</div>
+            <a href="#" class="product-link">View
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal reveal-delay-4">
+        <div class="product-img-wrap">
+          <img class="product-img" data-parallax
+            src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/full-man-putfi_ppkagh.jpg"
+            alt="Full Man Outfit">
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Menswear</div>
+          <h3 class="product-name">The Gentleman's<br>Wardrobe</h3>
+          <p class="product-desc">Dressed for every room. Commanding presence without a word spoken.</p>
+          <div class="product-footer">
+            <div class="product-price">$720</div>
+            <a href="#" class="product-link">View
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Shop All CTA below featured products -->
+    <div style="text-align:center;margin-top:56px;" class="reveal">
+      <button id="shop-all-cta" style="display:inline-flex;align-items:center;gap:12px;background:var(--army-dark);color:var(--cream);border:none;padding:18px 40px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:background .3s;">
+        View All Products
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE BREAK -->
+<div id="marquee-break">
+  <div class="marquee-bg">
+    <div class="marquee-text-track">
+      <span class="marquee-word">Culturefiness</span><span class="marquee-word filled">Culture</span>
+      <span class="marquee-word">Finesse</span><span class="marquee-word filled">Curated</span>
+      <span class="marquee-word">Excellence</span><span class="marquee-word filled">Living</span>
+      <span class="marquee-word">Culturefiness</span><span class="marquee-word filled">Culture</span>
+      <span class="marquee-word">Finesse</span><span class="marquee-word filled">Curated</span>
+      <span class="marquee-word">Excellence</span><span class="marquee-word filled">Living</span>
+    </div>
+  </div>
+  <div class="marquee-center">
+    <div class="marquee-center-text">"Every purchase is a declaration of taste."</div>
+    <div class="marquee-center-sub">— Culturefiness Philosophy</div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div class="section-label reveal">Visual World</div>
+    <h2 class="section-title reveal reveal-delay-1">The <em>Lifestyle</em><br>Collection</h2>
+  </div>
+  <div class="gallery-scroll-wrap">
+    <div class="gallery-track">
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/full-man-putfi_ppkagh.jpg" alt="Man Outfit"><div class="gallery-card-label"><div class="gallery-card-cat">Menswear</div><div class="gallery-card-name">The Season's Edit</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/white-tishirt-green-background_kmsklm.webp" alt="White Tee"><div class="gallery-card-label"><div class="gallery-card-cat">Essentials</div><div class="gallery-card-name">Pure White Luxury</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/woman-outfit_nsubop.webp" alt="Woman Outfit"><div class="gallery-card-label"><div class="gallery-card-cat">Womenswear</div><div class="gallery-card-name">Feminine Mastery</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/man-full-fits_j4bojo.webp" alt="Full Fits"><div class="gallery-card-label"><div class="gallery-card-cat">Full Looks</div><div class="gallery-card-name">Complete Ensemble</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/fulloutfit-with-shoes_eowefb.jpg" alt="Full Outfit Shoes"><div class="gallery-card-label"><div class="gallery-card-cat">Head to Toe</div><div class="gallery-card-name">From the Ground Up</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/full-man-putfi_ppkagh.jpg" alt="Man Outfit"><div class="gallery-card-label"><div class="gallery-card-cat">Menswear</div><div class="gallery-card-name">The Season's Edit</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/white-tishirt-green-background_kmsklm.webp" alt="White Tee"><div class="gallery-card-label"><div class="gallery-card-cat">Essentials</div><div class="gallery-card-name">Pure White Luxury</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/woman-outfit_nsubop.webp" alt="Woman Outfit"><div class="gallery-card-label"><div class="gallery-card-cat">Womenswear</div><div class="gallery-card-name">Feminine Mastery</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/man-full-fits_j4bojo.webp" alt="Full Fits"><div class="gallery-card-label"><div class="gallery-card-cat">Full Looks</div><div class="gallery-card-name">Complete Ensemble</div></div></div>
+      <div class="gallery-card"><img class="gallery-img" src="https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/fulloutfit-with-shoes_eowefb.jpg" alt="Full Outfit Shoes"><div class="gallery-card-label"><div class="gallery-card-cat">Head to Toe</div><div class="gallery-card-name">From the Ground Up</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-wrap">
+    <div class="section-label reveal" style="justify-content:center">What They Say</div>
+    <div class="testimonial-quote" id="testimonial-text">"I've never experienced buying like this. Every package from Culturefiness feels like receiving a gift from someone who truly understands you."</div>
+    <div class="testimonial-author" id="testimonial-author">— Amara K., Nairobi</div>
+    <div class="testimonial-dots">
+      <div class="t-dot active" onclick="changeTestimonial(0)"></div>
+      <div class="t-dot" onclick="changeTestimonial(1)"></div>
+      <div class="t-dot" onclick="changeTestimonial(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="cta-eyebrow">Join the Circle</div>
+    <h2 class="cta-title">Live with<br><em>intention.</em></h2>
+    <p class="cta-sub">Be the first to discover new arrivals, limited editions, and the stories behind every piece we curate. No noise — only the exceptional.</p>
+    <div class="email-form">
+      <input type="email" class="email-input" placeholder="Your email address">
+      <button class="email-submit">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo" style="display:block;margin-bottom:20px;"><span class="culture">Culture</span><span class="finesse">Finesse</span></a>
+        <p>A curated world of exceptional products for those who live with intention and taste.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Shop</div>
+        <ul class="footer-links">
+          <li><a href="#">New Arrivals</a></li><li><a href="#">Apparel</a></li>
+          <li><a href="#">Accessories</a></li><li><a href="#">Lifestyle</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">Our Story</a></li><li><a href="#">Philosophy</a></li>
+          <li><a href="#">Press</a></li><li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Contact Us</a></li><li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li><li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Culturefiness. All rights reserved.</p>
+      <p>Crafted with intention.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── WHATSAPP PHONE ── */
+const WA_PHONE = 'YOUR_PHONE_NUMBER'; // e.g. 250781234567
+
+/* ── SHOP ALL PRODUCTS DATA ── */
+const ALL_PRODUCTS = [
+  { id:1, cat:'menswear',    badge:'New Arrival', name:'The Signature Full Ensemble',  desc:'Head-to-toe precision. Every piece selected to move together as one statement of effortless power.', price:'$1,240', img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/man-full-fits_j4bojo.webp' },
+  { id:2, cat:'essentials',  badge:'Bestseller',  name:'The Pure White Signature Tee', desc:'Luxury in simplicity. The finest cotton, cut to perfection.',                                         price:'$180',   img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/white-tishirt-green-background_kmsklm.webp' },
+  { id:3, cat:'full-look',   badge:'',            name:'Head to Toe Collection',       desc:'From the ground up. Every detail curated for maximum impact.',                                          price:'$860',   img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/fulloutfit-with-shoes_eowefb.jpg' },
+  { id:4, cat:'womenswear',  badge:'Limited',     name:'The Feminine Edit',            desc:'Grace in every thread. Quietly commanding, always unforgettable.',                                       price:'$580',   img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/woman-outfit_nsubop.webp' },
+  { id:5, cat:'menswear',    badge:'',            name:"The Gentleman's Wardrobe",     desc:"Dressed for every room. Commanding presence without a word spoken.",                                     price:'$720',   img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/full-man-putfi_ppkagh.jpg' },
+  { id:6, cat:'womenswear',  badge:'New',         name:'The Modern Feminine Set',      desc:'Contemporary silhouettes rooted in quiet luxury. For the woman who needs no introduction.',            price:'$640',   img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/woman-outfit_nsubop.webp' },
+  { id:7, cat:'menswear',    badge:'',            name:'The Refined Casual Look',      desc:'The art of dressing down without ever dressing less. Effortless, always curated.',                      price:'$490',   img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768508/full-man-putfi_ppkagh.jpg' },
+  { id:8, cat:'full-look',   badge:'Limited',     name:'The Complete Statement',       desc:'Nothing left to chance. A full look assembled with absolute precision.',                                 price:'$1,080', img:'https://res.cloudinary.com/dmqwlcjec/image/upload/v1780768509/fulloutfit-with-shoes_eowefb.jpg' },
+];
+
+/* ── BUILD SHOP GRID ── */
+function buildShopGrid(filter) {
+  const grid = document.getElementById('shop-grid');
+  const items = filter === 'all' ? ALL_PRODUCTS : ALL_PRODUCTS.filter(p => p.cat === filter);
+  grid.innerHTML = items.map(p => `
+    <div class="shop-item">
+      <div class="shop-item-img-wrap">
+        <img class="shop-item-img" src="${p.img}" alt="${p.name}" loading="lazy">
+        ${p.badge ? `<div class="shop-item-badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="shop-item-info">
+        <div class="shop-item-cat">${p.cat.replace('-',' ')}</div>
+        <div class="shop-item-name">${p.name}</div>
+        <div class="shop-item-desc">${p.desc}</div>
+        <div class="shop-item-footer">
+          <div class="shop-item-price">${p.price}</div>
+          <button class="shop-buy-btn" onclick="buyOnWhatsApp(${JSON.stringify(p.name)}, ${JSON.stringify(p.price)})">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5C18.3 1.3 15.3 0 12 0 5.4 0 0 5.4 0 12c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.6C8 23.4 10 24 12 24c6.6 0 12-5.4 12-12 0-3.2-1.3-6.2-3.5-8.5zm-8.5 18.4c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.7.9.9-3.6-.2-.4c-.9-1.5-1.4-3.2-1.4-5C2 6.5 6.5 2 12 2c2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1 0 5.5-4.5 10-10 10zm5.5-7.4c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6l.5-.5c.1-.2.1-.3.2-.5 0-.2 0-.4-.1-.5-.1-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C6 9.3 5.3 10 5.3 11.5s1.1 2.9 1.3 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.2-.1-.4-.2-.6-.3z"/></svg>
+            Buy
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function buyOnWhatsApp(name, price) {
+  const text = encodeURIComponent(`Hello! I'd like to order:\n\n*${name}*\nPrice: ${price}\n\nMy details: `);
+  window.open(`https://wa.me/${WA_PHONE}?text=${text}`, '_blank');
+}
+
+/* ── SHOP PAGE OPEN/CLOSE ── */
+function openShop() {
+  buildShopGrid('all');
+  document.getElementById('shop-page').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // scroll shop page to top
+  document.getElementById('shop-page').scrollTop = 0;
+}
+function closeShop() {
+  document.getElementById('shop-page').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('mob-shop-btn').addEventListener('click', openShop);
+document.getElementById('shop-all-cta').addEventListener('click', openShop);
+document.getElementById('shop-close-btn').addEventListener('click', closeShop);
+
+// Filter buttons
+document.querySelectorAll('.shop-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.shop-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    buildShopGrid(btn.dataset.filter);
+  });
+});
+
+/* ── CURSOR ── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+if(window.matchMedia('(pointer:fine)').matches){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; if(cursor){ cursor.style.left=mx+'px'; cursor.style.top=my+'px'; } });
+  (function loop(){ rx+=(mx-rx)*.1; ry+=(my-ry)*.1; if(ring){ ring.style.left=rx+'px'; ring.style.top=ry+'px'; } requestAnimationFrame(loop); })();
+  document.querySelectorAll('a,button,.product-card,.gallery-card,.t-dot').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+  });
+} else {
+  if(cursor) cursor.style.display='none'; if(ring) ring.style.display='none';
+}
+
+/* ── NAVBAR ── */
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',scrollY>60));
+
+/* ── HERO PARALLAX ── */
+const heroPar=document.getElementById('hero-parallax');
+if(window.matchMedia('(pointer:fine)').matches){
+  window.addEventListener('scroll',()=>{
+    if(scrollY<innerHeight && heroPar) heroPar.style.transform=`translateY(${scrollY*.3}px) scale(1.08)`;
+  },{passive:true});
+}
+
+/* ── PHIL IMAGE PARALLAX ── */
+const philImg=document.getElementById('phil-main-img');
+function updatePhilParallax(){
+  if(!philImg) return;
+  const r=philImg.closest('.phil-img-main').getBoundingClientRect();
+  const prog=(innerHeight-r.top)/(innerHeight+r.height);
+  const shift=(prog-.5)*60;
+  philImg.style.transform=`scale(1.15) translateY(${shift}px)`;
+}
+if(window.matchMedia('(pointer:fine)').matches){
+  window.addEventListener('scroll',updatePhilParallax,{passive:true});
+}
+
+/* ── QUOTE CARD ── */
+const quoteCard=document.getElementById('quote-card');
+const quoteObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ setTimeout(()=>quoteCard.classList.add('in-view'),200); quoteObs.unobserve(e.target); }
+  });
+},{threshold:0.25});
+if(quoteCard) quoteObs.observe(quoteCard);
+
+/* ── PRODUCT PARALLAX ── */
+function updateProductParallax(){
+  document.querySelectorAll('[data-parallax]').forEach(img=>{
+    const r=img.getBoundingClientRect();
+    const center=r.top+r.height/2;
+    const dist=(center-innerHeight/2)/innerHeight;
+    const scale=1.08+Math.abs(dist)*0.1;
+    const ty=dist*-28;
+    img.style.transform=`scale(${Math.min(scale,1.2)}) translateY(${ty}px)`;
+  });
+}
+if(window.matchMedia('(pointer:fine)').matches){
+  window.addEventListener('scroll',updateProductParallax,{passive:true});
+  updateProductParallax();
+}
+
+/* ── SCROLL REVEAL ── */
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+/* ── TESTIMONIALS ── */
+const testimonials=[
+  {quote:'"I\'ve never experienced buying like this. Every package from Culturefiness feels like receiving a gift from someone who truly understands you."',author:'— Amara K., Nairobi'},
+  {quote:'"The quality is extraordinary. These aren\'t just products — they are objects that change how you see yourself and your world."',author:'— Théo M., Kigali'},
+  {quote:'"Culturefiness curates with a level of taste that makes every purchase feel like a discovery. I come back for everything."',author:'— Priya S., Lagos'},
+];
+let currentT=0;
+const tText=document.getElementById('testimonial-text');
+const tAuthor=document.getElementById('testimonial-author');
+const tDots=document.querySelectorAll('.t-dot');
+function changeTestimonial(i){
+  tText.classList.remove('visible');
+  setTimeout(()=>{ currentT=i; tText.textContent=testimonials[i].quote; tAuthor.textContent=testimonials[i].author; tDots.forEach((d,idx)=>d.classList.toggle('active',idx===i)); tText.classList.add('visible'); },300);
+}
+setTimeout(()=>tText.classList.add('visible'),700);
+setInterval(()=>changeTestimonial((currentT+1)%testimonials.length),5500);
+
+/* ── MOBILE WHATSAPP CART ── */
+const mobCartBtn = document.getElementById('mob-cart-btn');
+if(mobCartBtn){
+  mobCartBtn.addEventListener('click',e=>{
+    e.preventDefault();
+    const text = encodeURIComponent("Hello! I'd like to order from Culturefiness. Item: [name], Price: [price]. My details: ");
+    window.open(`https://wa.me/${WA_PHONE}?text=${text}`, '_blank');
+  });
+}
+/* ── DESKTOP CART BTN ── */
+const cartBtn = document.getElementById('cart-btn');
+if(cartBtn){
+  cartBtn.addEventListener('click',e=>{
+    e.preventDefault();
+    const text = encodeURIComponent("Hello! I'd like to order from Culturefiness. Item: [name], Price: [price]. My details: ");
+    window.open(`https://wa.me/${WA_PHONE}?text=${text}`, '_blank');
+  });
+}
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{ e.preventDefault(); const t=document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth'}); });
+});
+
+/* ── SECTION TITLE BLEND ── */
+function blendTitles(){
+  document.querySelectorAll('.section-title').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    const p=1-Math.max(0,Math.min(1,r.top/innerHeight));
+    el.style.opacity=0.15+p*.85;
+    el.style.transform=`translateY(${(1-p)*18}px)`;
+  });
+}
+window.addEventListener('scroll',blendTitles,{passive:true});
+</script>
+</body>
+</html>
+
+
+
