@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+@theme {
+  --color-black: #050505;
+  --color-ink: #0d0d0d;
+  --color-surf1: #121212;
+  --color-surf2: #181818;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F3E5AB;
+  --color-gold-dark: #AA7C11;
+  
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-serif: Georgia, "Times New Roman", "Playfair Display", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --animate-grain: grain 0.8s steps(1) infinite;
+  --animate-scroll-down: scrolldrop 1.8s ease-in-out infinite;
+}
+
+/* Base styles override */
+html {
+  background-color: #050505;
+  color: #F5F2EB;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: #050505;
+  overflow-x: hidden;
+  position: relative;
+}
+
+
+/* For devices supporting hover, hide default cursor to enable custom luxurious experience */
+@media (hover: hover) and (pointer: fine) {
+  body, a, button, [role="button"] {
+    cursor: none !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #181818;
+  border: 2px solid #050505;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Celluloid Film Grain overlay */
+.grain {
+  position: fixed;
+  inset: -10%;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px;
+  opacity: 0.045;
+  animation: grain-shift 0.6s steps(2) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-1%, -2%); }
+  20% { transform: translate(-3%, 1%); }
+  30% { transform: translate(1%, -2%); }
+  45% { transform: translate(-2%, 2%); }
+  60% { transform: translate(2%, 1%); }
+  75% { transform: translate(-1%, -1%); }
+  90% { transform: translate(3%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Floating Golden Orbs (Ambient glow) */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+/* Premium Typography accents */
+.editorial-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Ticket tear lines & custom shadows */
+.ticket-dashed-line {
+  background-image: linear-gradient(to right, rgba(245,242,235,0.08) 50%, rgba(255,255,255,0) 0%);
+  background-position: bottom;
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Magnetic interactive transitions */
+.transition-magnetic {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Scroll indicators animation */
+@keyframes scrolldrop {
+  0% {
+    top: -100%;
+    transform: scaleY(0.1);
+  }
+  40% {
+    top: 50%;
+    transform: scaleY(1);
+  }
+  80% {
+    top: 100%;
+    transform: scaleY(0.1);
+  }
+  100% {
+    top: 100%;
+    transform: scaleY(0);
+  }
+}
+
+/* Custom layout helper to prevent content overlap with vertical mobile heights */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen-ios {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Scroll Reveal System */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.reveal-element.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Image Reveal Mask System */
+.reveal-image-container {
+  position: relative;
+  overflow: hidden;
+}
+.reveal-image-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #121212; /* matching surf1 */
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  z-index: 10;
+}
+.reveal-image-container.revealed::after {
+  transform: scaleY(0);
+}
+.reveal-image-container img {
+  transform: scale(1.1);
+  opacity: 0;
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.reveal-image-container.revealed img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Word Reveal System */
+.reveal-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.reveal-word-child {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.reveal-word.revealed .reveal-word-child {
+  transform: translateY(0);
+}
+
+/* Premium card hover effects */
+.premium-card {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow, border-color;
+}
+.premium-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: rgba(212, 175, 55, 0.3) !important;
+  box-shadow: 0 15px 35px -12px rgba(212, 175, 55, 0.15);
+  background-color: var(--color-surf2) !important;
+}
+
+/* Lenis scrolling adjustments */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overflow: clip;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+

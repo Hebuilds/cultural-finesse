@@ -1,0 +1,349 @@
+Technical Architecture & Developer Documentation Guide
+RW Project — Immersive Cinematic Platform
+Welcome to the ultimate technical blueprint and developer documentation guide for RW Project. This guide is crafted by your Senior React Architect and Technical Mentor to walk you through the inner gears, design choices, data pipelines, and architectural philosophies that power this premium, editorial-grade cultural movement web experience.
+Part 1: Dependency Analysis (package.json)
+Before diving into individual files, let's understand the runtime ecosystem. Our dependencies are handpicked to deliver a 60fps cinematic frame-budget:
+react & react-dom (v18+): Core UI fiber engine. Leverages virtual DOM transitions and state-driven reconciliation.
+lucide-react: Flat, minimalist SVG vector icons. Imported as named elements to ensure the compiler bundle utilizes tree-shaking (removing unused icons).
+lenis: The premier lightweight smooth-scrolling library. Replaces the browser's native rigid scrolling mechanics with an interpolated, momentum-driven animation cycle, mirroring premium luxury/web-agency interfaces.
+Tailwind CSS: A utility-first CSS framework. Used in conjunction with our modern @import configuration to compile class arrays into highly optimized, tiny stylesheets without any styling runtime cost.
+Vite: The ultra-fast ESM-based bundling tool. Builds, rolls, and bundles assets with Zero-Config Hot Module Replacement support.
+File-by-File Technical Deep Dive
+We will now dissect every file in the codebase. Each file is treated with rigorous architectural scrutiny to explain its imports, exports, state, logic, and styling.
+1. src/types.ts
+File Overview: src/types.ts
+Purpose
+Acts as the central, single source of truth for TypeScript typings. By defining strict structural boundaries for events, merchandise products, immersive narrative experiences, roleplay character dossiers, community assets, and inquiry collection schemas, it ensures compiles are strictly type-safe.
+Connections to other files
+Imported by: src/data.ts, src/App.tsx, src/components/CharacterRoll.tsx, src/components/TicketGenerator.tsx, src/components/MerchDetailModal.tsx.
+It binds all modular data generators and JSX views to consistent property schemas.
+Dependencies
+None. Pure TypeScript compiler types.
+Imports
+None.
+Exports
+EventItem: Shapes all live experience models (e.g. "Say Your Line").
+MerchItem: Dictates the metadata of premium high-end capsule apparel.
+StoryExperience: Schematizes the thematic core pillars.
+CharacterCard: Outlines the structural data fields of cast roles.
+CommunityPhoto: Shapes the masonry coordinates of the Instagram visual wall.
+UserInquiry: Structure for direct pre-order reservations.
+2. src/data.ts
+File Overview: src/data.ts
+Purpose
+Serves as the static relational data vault. Rather than executing cold API network queries repeatedly across our components, we declare highly curated, immutable arrays of products, schedules, characters, and high-fidelity showcase assets. This acts as our client-side database before live cloud migration.
+Connections to other files
+Imported by: src/App.tsx, src/components/CharacterRoll.tsx, src/components/TicketGenerator.tsx, src/components/MerchDetailModal.tsx.
+Injectable assets and structured coordinates feed straight into the UI layer.
+Dependencies
+None.
+Imports
+{ EventItem, MerchItem, StoryExperience, CharacterCard, CommunityPhoto } from ./types — Needed to assert compile-time structure over all exported data structures.
+Exports
+EVENTS_DATA: Array containing detailed profiles of scheduled activities.
+MERCH_DATA: Array outlining the custom streetwear capsule.
+EXPERIENCES_DATA: Detailed descriptions of core cultural tracks.
+CHARACTER_TEMPLATES: Collection of interactive dialogue cards.
+COMMUNITY_PHOTOS: Curated assets simulating realistic Instagram photography outputs.
+3. src/components/MagneticButton.tsx
+File Overview: src/components/MagneticButton.tsx
+Purpose
+Provides a delightful, highly responsive, micro-interactive magnetic effect on buttons when the mouse cursor enters their radial field. It captures pointer coordinates relative to the button's geometric center and interpolates the container's transformation on the GPU canvas.
+Connections to other files
+Imported by: src/App.tsx and other interactive CTA locations.
+Acts as a wrapper over standard buttons to elevate their feel.
+Dependencies
+None. Pure hardware-accelerated CSS and modern React pointers.
+Imports
+React, { useRef, useState, useEffect } from react — Essential React utilities for managing pointer hooks and keeping component life-cycles.
+Exports
+default function MagneticButton — Fully customizable premium interactive element.
+Component Props
+children (React.ReactNode): Inner text or icons.
+className (string, optional): Additional Tailwind spacing classes.
+onClick (() => void, optional): Success feedback trigger.
+id (string, optional): HTML unique targeting identifier.
+type ("button" | "submit", optional): Native form submit identifier.
+Functions
+handleMouseMove (Inside useEffect)
+Purpose: Calculates the cursor hover position offset from the exact center of the button, translating that into tiny, sophisticated coordinate movements.
+Inputs: e: MouseEvent (Mouse positioning object).
+Outputs: None. Updates internal React state.
+Side effects: Triggers component re-render on mouse movement, updating inline styles.
+When it runs: Continually on pointer-move when cursor is hovering within the element's bounding box.
+Hooks Used
+useRef<HTMLButtonElement>: Targets the direct DOM element to calculate getBoundingClientRect() values.
+useState({ x: 0, y: 0 }): Maintains current translation coordinate state.
+useEffect(): Registers the global pointer-listeners securely. Cleans up event listeners on dismount to prevent memory leaks.
+Styling & CSS approach
+Reduces the coordinate range multiplier directly to 0.22 (i.e. maximum 10-12px shift) to prevent exaggerated cartoon jumping. Utilizes Tailwind-guided hardware acceleration via will-change-transform and elegant cubic-bezier(0.16, 1, 0.3, 1) transitions for instantaneous snap-backs.
+4. src/components/CustomCursor.tsx
+File Overview: src/components/CustomCursor.tsx
+Purpose
+Replaces standard native cursor pointers with a dual-layer, fluidly lag-interpolated modern system (a pinpoint core and an expanding orbital ring). It dynamically reacts to clickable target hovering to draw elegant visual context.
+Connections to other files
+Imported by: src/App.tsx immediately below the root level.
+Synchronizes with elements decorated with the .interactive-hover class.
+Imports
+React, { useEffect, useState, useRef } from react — Vital structural hooks.
+Exports
+default function CustomCursor — The global custom UI cursor.
+Functions
+mousetravel (Effect-embedded coordinate tracker)
+Purpose: Updates reference target coordinates with current pointer coordinates.
+Inputs: Mouse Event coordinates.
+Side effects: Updates mouseX and mouseY references.
+Hooks Used
+useState(false): Toggles pointer active (click pressed) state and target hover scaling state.
+useRef: Binds raw coordinate numbers (x, y, target x, y for the trailing orbital circle) outside the render cycle, allowing smooth fractional updates inside a continuous animation thread.
+useEffect: Runs on mounting. Deploys standard requestAnimationFrame loops to continuously calculate:
+
+This produces a luxurious fluid tail lag. Registers target mouse movements and element hovering hooks (mouseenter and mouseleave over items with the class .interactive-hover). Correctly tears down all pointer hooks on dismount.
+Styling & CSS approach
+Employs GPU translation layers (translate3d), pointer events isolation (pointer-events-none), absolute layout positioning, and deep gold borders (border-gold/30) with custom backdrop filters. Respects physical viewport media limitations by hiding the cursor entirely on mobile devices without standard precise mouse inputs.
+5. src/components/CharacterRoll.tsx
+File Overview: src/components/CharacterRoll.tsx
+Purpose
+Implements a bespoke interactive card spinner that crafts an immersive audience protocol. It rolls random immersive theatrical persona identities complete with secret objectives, lines, and faction cards, supporting full 3D flip card rotations.
+Connections to other files
+Imported by: src/App.tsx.
+Consumes: CHARACTER_TEMPLATES inside src/data.ts.
+Imports
+React, { useState } from "react".
+CHARACTER_TEMPLATES from ../data — Source pool of creative digital identities.
+CharacterCard from ../types — Typings interface.
+Sparkles, RefreshCw, EyeOff, Check, Copy from "lucide-react" — Visual vectors.
+Exports
+default function CharacterRoll — Immersive identity experience.
+Functions
+rollCharacter
+Purpose: Simulates a high-end luxury roulette card shuffle by rapidly iterating index positions across the database before anchoring on a single character profile.
+Inputs: None.
+Outputs: None. Formulates state changes.
+Side effects: Cycles state intervals, temporarily resets card rotational statuses, and handles final selections.
+When it runs: Triggered manually on button click events.
+Example usage: onClick={rollCharacter}
+copyDossier
+Purpose: Formats the selected character dossier into clean, presentable string blocks and pushes them directly into the passenger's system clipboard using web native modules.
+Inputs: None.
+Outputs: None.
+Side effects: Triggers a success timing confirmation badge.
+Hooks Used
+useState<CharacterCard | null>(null): Houses the active assigned identity.
+useState(false): Coordinates card loading animations, visual status transitions, and copied confirmations.
+Styling & CSS approach
+Incorporates real 3D perspectives on CSS containers (perspective-[1000px], transform-style-3d, backface-hidden). Cards flip 180 degrees seamlessly along the Y-axis. Features rich golden laser grid overlays (linear-gradient) reminiscent of advanced agency branding.
+6. src/components/TicketGenerator.tsx
+File Overview: src/components/TicketGenerator.tsx
+Purpose
+Forms the custom ticketing synthesizer. Passengers compile their name, email, and selected event. It plays a custom-generated mechanical printing noise using the browser's Web Audio API and generates a detailed vector digital luxury ticket complete with a sharp, inline custom SVG QR code.
+Connections to other files
+Imported by: src/App.tsx.
+Consumes: EVENTS_DATA inside src/data.ts.
+Imports
+React, { useState, useRef } from "react".
+EVENTS_DATA from ../data — List of current events.
+Sparkles, Calendar, MapPin, Clock, Check, Ticket, Award, Printer from "lucide-react".
+Exports
+default function TicketGenerator — Core Access Portal UI.
+Functions
+playCompileSound
+Purpose: Generates high-fidelity mechanical print synthesizer noises (clicking mechanical typewriter snaps followed by a pure golden sinus bell chime) using native browser oscillators. No external audio files needed!
+Inputs: None.
+Outputs: None. Synthesizes physical frequencies directly to sound hardware outputs.
+Side effects: Runs high-frequency oscillators and gains on native Audio Context nodes.
+When it runs: Automatically when the user submits their ticket data.
+handleSubmit
+Purpose: Processes the form validation inputs, activates compile states, runs sound frequencies, and constructs unique ticket metadata with customized serial sequences.
+Inputs: e: React.FormEvent.
+Outputs: Formulates the new ticket on success.
+Hooks Used
+useState: Captures user name, email, active form selects, loading flags, and compiled digital tickets.
+useRef<AudioContext | null>: Binds and preserves the browser's hardware physical audio thread continuously across renders without restarting the stream.
+Styling & CSS approach
+Constructs realistic ripped-edge ticket graphics (ticket-dashed-line with absolute radial cut-out circle notches on left and right sides). Utilizes sharp high-contrast layout formatting with dark metallic accents and gold gradients.
+7. src/components/MerchDetailModal.tsx
+File Overview: src/components/MerchDetailModal.tsx
+Purpose
+Opens an immersive editorial focal screen overlay detail modal for premium custom-capsule apparel drops. It lets players explore item backstories, choose sizes, and pre-register reservations.
+Connections to other files
+Imported by: src/App.tsx (Triggered dynamically on active item selections).
+Imports
+React, { useState } from "react".
+MerchItem from ../types.
+Icons from "lucide-react".
+Exports
+default function MerchDetailModal — The overlay modal view.
+Component Props
+item (MerchItem): The target merchandise item detail record.
+onClose (() => void): Callback function to exit the overlay.
+Functions
+handleReserveSubmit
+Purpose: Compiles size configurations and reservation data, locking in the success interface.
+Inputs: e: React.FormEvent.
+copyReservation
+Purpose: Formats a beautifully engineered digital ordering dossier block and saves it to the clipboard, providing secondary WhatsApp and Instagram manual backup copies.
+Inputs: None.
+Hooks Used
+useState: Governs sizing states, checkout inputs, copying notifications, and submission toggles.
+Styling & CSS approach
+Displays highly polished immersive overlays using rich backdrop-filters (backdrop-blur-xl), animated fadeIn sequences (animate-fadeIn), structural gold borders (border-gold/20), and calligraphic display typography. Provides direct visual outbound link hooks to the official Instagram handle.
+8. src/index.css
+File Overview: src/index.css
+Purpose
+Our design core. Rather than littering separate, scattered style configuration files across directories, we declare global CSS layers under customized Tailwind configurations. It contains custom theme boundaries, scrollbars, and customized typography bindings.
+Connections to other files
+Imported by: /src/main.tsx as the absolute entry styling stylesheet.
+Design Variables & Layout
+code
+CSS
+@theme {
+  --color-gold: #c39c4d;       /* Warm editorial gold core */
+  --color-gold-light: #e4c582; /* Bright highlight gold */
+  --color-gold-dark: #916c27;  /* High contrast shadow gold */
+  --color-surf1: #121212;      /* Midnight surface primary */
+  --color-surf2: #191919;      /* Midnight surface secondary */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+Core Custom Rules Injected
+Scroll Reveal System (.reveal-element): Uses instantaneous GPU hardware-accelerated opacities and subtle translates (translateY(28px)) with long-arc custom ease curves (cubic-bezier(0.16, 1, 0.3, 1)) to glide components smoothly on viewport entry.
+Image Mask Reveal (.reveal-image-container & ::after): Provides elegant bottom-to-top mask reveals using absolute scale translations on solid slide blocks. It scales the underlying images gently down from 1.1 to 1.0, creating a luxurious editorial fashion parallax reveal.
+Word Reveal System (.reveal-word): Conceals text sentences below their visual baseline boundaries and slides each word upward dynamically when triggered.
+Premium Cards hover classes (.premium-card): Introduces 3D depth, subtle scaling (
+), subtle lift, and delicate gold shadow halos on mouse-over.
+9. src/App.tsx
+File Overview: src/App.tsx
+Purpose
+The master central dashboard of the digital platform. It controls the introductory splash preloader, orchestrates layout navigation states, binds custom Lenis momentum-scroll behaviors globally, connects native IntersectionObservers for stagger delays, and synthesizes major section interfaces.
+Connections to other files
+Imports: Data vault profiles, specialized interactive cards generators, custom cursors, magnetic CTA vectors, modals, types, and stylesheets.
+Renders: The global visual system.
+Hooks Used
+useState: Governs loading progress, current coordinates tracker (scrollY), mobile burger navigation toggles, active experiences, selected merch items, and ticket information.
+useRef: Binds direct horizontal tracks scroll controls.
+useEffect:
+Preloader effect: Iterates loading percent triggers inside a timed tick interval.
+IntersectionObserver setup: Captures elements decorated with scroll-reveal signatures, activating .revealed classes dynamically as they cross viewport margins. Instantly disconnects itself post-reconciliation to ensure pristine rendering efficiency.
+Lenis initialization: Mounts Lenis smooth momentum-scrolls, binds the animation frames loop (requestAnimationFrame(raf)), and hooks window scrolls. Destroys the engine cleanly on dismount to preserve frame-budgets.
+Layout Render Tree structure
+Splash Preloader Layer: Minimal editorial counts matching custom cinematic fade animations.
+Global Navigation Header: Sticky float layout carrying the custom branding and coordinates ticker.
+Immersive Hero Section: Immersive full-screen visual canvas detailing events. Features the brand-new structural kicker: "ONE TICKET. TWO EXPERIENCES. FROM THE SCREEN TO THE AFTERS".
+Manifesto Stories Grid Sections: Introduces the four core creative pillars wrapped inside modern .reveal-element hooks.
+Interactive Experience Spotlight: Custom horizontal scroll tracks displaying detail cards.
+Access Ticketing & Access Portal: Integrates the ticket synthesizer block.
+Streetwear Collection drop section: Custom product list grids opening interactive pre-order modals.
+Instagram Community Wall Masonry: Visual showcase panels layout.
+Footer Systems & Dynamic Clock: Real-time Greenwich and custom timezone markers.
+Project Architecture & Information Flow
+The diagram below shows how state, events, and dynamic parameters travel through the current RW Project React environment:
+code
+Code
+[ User Interaction ]  --- (Scroll / Hover / Click / Hover Proximity) ---> [ CustomCursor / MagneticButton ]
+        │
+        ├── (Triggers Viewport Entry) ──> [ IntersectionObserver ] ──> [ Class: .revealed ] ──> CSS transition via GPU
+        │
+        ├── (CTA: Select Merch Card)  ──> [ State: activeMerchItem ] ──> [ MerchDetailModal Overlay Appears ]
+        │                                                                           │
+        │                                                                    (Form Submit)
+        │                                                                           │
+        │                                                                           ▼
+        │                                                              [ Clipboard copy / WhatsApp Send ]
+        │
+        └── (Form: Compile Access) ─────> [ State: isCompiling ]
+                                                    │
+                                             (Web Audio API) ──> Plays click sounds & final golden ring tone
+                                                    │
+                                                    ▼
+                                        [ State: compiledTicket ] ──> Re-renders Ticket pass with unique serial
+Database Preparation Guide
+To evolve this single-view cinematic prototype into a multi-user operational system handling real-world reservations, we should implement a secure database strategy. Here is our architectural recommendation for migrating the client-side data states:
+1. Data That Must Move to the Database
+Physical Ticket Registrations: Names, Emails, cryptographic UUID Serial numbers, Check-in status, and chosen Event IDs.
+Capsule Merch Active Inventory: Stock statuses, sizes pool, price models, and reservation queue counters.
+Cast Dossiers Assignment Engine: Stores which ticket/user is dynamically mapped to which CharacterCard of the live script to guarantee no duplicate role assignments occur at the door.
+2. Suggested Relational Firestore Cloud Schema
+code
+Code
+collections/
+  ├── events/
+  │    ├── docId: "syl-2026"
+  │    │    ├── title: "SAY YOUR LINE"
+  │    │    ├── venue: "Agura Creative Hub"
+  │    │    ├── priceAmount: 5000
+  │    │    └── totalSpots: 150
+  │    
+  ├── tickets/
+  │    ├── docId: "TICKET_UUID_98762"
+  │    │    ├── userName: "YVES KABERA"
+  │    │    ├── userEmail: "kabera@gmail.com"
+  │    │    ├── eventId: "syl-2026"
+  │    │    ├── serialNumber: "RW-4311-YK"
+  │    │    ├── assignedCharacterId: "char-1"   <-- Relational link to live role-play engine
+  │    │    ├── purchasedAt: Timestamp
+  │    │    └── checkedIn: Boolean
+  │    
+  └── merch_reservations/
+       ├── docId: "RESERVE_UUID_11234"
+            ├── buyerName: "SANDRINE M."
+            ├── contactDetails: "@sandrine_ux"
+            ├── itemId: "classic-tee"
+            ├── size: "M"
+            ├── status: "PENDING_PICKUP"
+            └── reservedAt: Timestamp
+3. Suggested API Routing Layer (Express backend middleware)
+POST /api/tickets/compile: Validates email formats, checks if event spots are remaining, registers the ticket record in Firestore, and returns structural JSON detailing compile locks.
+GET /api/tickets/verify/:serial: Door scan API endpoint. Handled by coordinators to toggle the checkedIn bool flag on entry.
+POST /api/merch/reserve: Registers pre-order item inquiries directly to database locks.
+GET /api/characters/assign: Implements custom atomic server transactional controls to draw an unassigned roleplay dossier, locks assignment to the buyer, and delivers it securely.
+4. Suggested Authenticated Control Flow
+We recommend utilizing Firebase Authentication alongside our Firestore configuration rules. Under this standard model:
+Generics / Guest views: Publicly readable. Guests can view merchandise lists, read live story pillars, and access the ticketing compile form.
+Ticket Holders: Can query and view their personal assigned secrets dossier. Protected with basic security token structures containing unique access IDs.
+Organizers / Coordinators UI: Authorized admin accounts. Fully allowed to write, modify, and check-in tickets.
+Learning Roadmap: A Masterclass in Premium React
+Follow this sequential master roadmap to elevate your expertise from React basics to senior-level cinematic development, matching high-end agencies:
+code
+Code
+─────────────────────────────────────────────────────────────────────────────────────────────
+STATION 01: Core Layout UI Foundations (Basic)
+─────────────────────────────────────────────────────────────────────────────────────────────
+ ↳ Objectives: Understand modern JSX layout structures, Tailwind absolute grids, and flex spaces.
+ ↳ Core Files: `src/types.ts`, `src/data.ts`.
+ ↳ Exercise: Try changing the static metadata string coordinates on items in `EVENTS_DATA` and 
+             observe how the text automatically updates cleanly in the main Hero block.
+
+─────────────────────────────────────────────────────────────────────────────────────────────
+STATION 02: Dynamic Direct Client States (Intermediate)
+─────────────────────────────────────────────────────────────────────────────────────────────
+ ↳ Objectives: Master useState hooks and conditional conditional rendering arrays.
+ ↳ Core Files: `src/components/MerchDetailModal.tsx`.
+ ↳ Exercise: Add a validation handler that checks if the contact string is shorter than 
+             3 characters before unlocking the purchase submission buttons.
+
+─────────────────────────────────────────────────────────────────────────────────────────────
+STATION 03: Browser Hardware APIs & 3D Cards (Advanced)
+─────────────────────────────────────────────────────────────────────────────────────────────
+ ↳ Objectives: Control physical browser APIs (Audio Engine and 3D CSS Perspectives) programmatically.
+ ↳ Core Files: `src/components/CharacterRoll.tsx`, `src/components/TicketGenerator.tsx`.
+ ↳ Exercise: Modify the oscillator frequency values inside `playCompileSound()` to synthesize 
+             an alternative high-pitched digital confirmation melody.
+
+─────────────────────────────────────────────────────────────────────────────────────────────
+STATION 04: The Cinematic Fluid Thread: Pointers & Momentum Scrolls (Elite)
+─────────────────────────────────────────────────────────────────────────────────────────────
+ ↳ Objectives: Learn state-isolation coordinate arrays, GPU delta lags, and RAF scroll containers.
+ ↳ Core Files: `src/components/CustomCursor.tsx`, `src/components/MagneticButton.tsx`, `src/App.tsx`.
+ ↳ Exercise: Modify the multiplier inside `MagneticButton` to change the physical attraction force, 
+             observing how it alters interactive luxury agency styling dynamics in real life.
+─────────────────────────────────────────────────────────────────────────────────────────────
+Executive Design & Craftsmanship Summary
+The digital presence of RW Project has been architected to convey expensive, modern, and high-fidelity cultural brand values:
+Cosmic Slate Theme: Incorporates full midnight velvet canvas layers and gold highlights, removing system status telemetry to keep a clean look.
+Staggered Scroll Reveals: IntersectionObservers automatically delay visual translations dynamically based on when elements enter the viewport.
+Organic Image Parallax Reveals: Custom bottom-to-top mask slides scale images dynamically on scrolling to heighten continuous narrative interest.
+Interactive Audiences Protocol: Random roulette sound synthesizers and 3D roleplay persona card flips provide an engaging interactive experience.
+Fluid Momentum scrolling: Deploys professional Lenis scroll dynamics, allowing layouts to flow smoothly as one unified piece of art.
+The platform is compiled and runs cleanly with 60fps responsiveness. Use this technical manifest as your guiding roadmap as you continue to expand RW Project!
