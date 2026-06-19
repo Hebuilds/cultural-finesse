@@ -1,6 +1,0 @@
-{
-  "name": "RW Project",
-  "description": "Premium, cinematic, black-and-gold cultural movement for Kigali youth culture, fashion, storytelling, community, and events.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
